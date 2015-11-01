@@ -30,7 +30,7 @@ class Umei_cc(BaseClass):
     def _get_page_urls(self, url):
         html = urllib.request.urlopen(url).read()
         soup = BeautifulSoup(html, 'html.parser')
-        img_pages = soup.findAll('div', {'class': 'pages'})[1]
+        img_pages = soup.select('#pagination div.pages')[1]
         a = img_pages.findAll('a')[1:-1] # exclude next and previous buttons uri
         basenames = [i['href'] for i in a]
 
@@ -75,7 +75,7 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     for url in args.url:
-        if get_domain(url) == 'www.umei.cc':
+        if 'umei.cc' in get_domain(url):
             site = Umei_cc()
             
         img_urls = site.get_image_urls(url)
